@@ -85,7 +85,7 @@ def mine():
         response['message'] = 'New Block Forged'
         prev_hash = blockchain.hash(blockchain.last_block)
         blockchain.new_block(data['proof'], prev_hash)
-        blockchain.new_transaction(0, data['id'], 1)
+        blockchain.new_transaction('0', data['id'], 1)
     else:
         response['message'] = 'Proof Failed'
     return jsonify(response), 200
