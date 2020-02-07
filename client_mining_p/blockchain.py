@@ -65,13 +65,8 @@ def mine():
         'message': ''
     }
     missingData = False
-    if not data['proof']:
-        response['message'] += '** No proof given ** '
-        missingData = True
-    if not data['id']:
-        response['message'] += '** No ID given ** '
-        missingData = True
-    if missingData:
+    if 'proof' not in data or 'id' not in data:
+        response['message'] = 'Missing property'
         return jsonify(response), 400
 
     string_obj = json.dumps(blockchain.last_block, sort_keys=True)
@@ -83,18 +78,6 @@ def mine():
     else:
         response['message'] = 'Proof Failed'
     return jsonify(response), 200
-    
-    # proof = blockchain.proof_of_work(blockchain.last_block)
-    # prev_hash = blockchain.hash(blockchain.last_block)
-    # block = blockchain.new_block(proof, prev_hash)
-    # response = {
-    #     'index': block['index'],
-    #     'transactions': block['transactions'],
-    #     'proof': block['proof'],
-    #     'previous_hash': block['previous_hash']
-    # }
-
-    # return jsonify(response), 200
 
 
 @app.route('/chain', methods=['GET'])
